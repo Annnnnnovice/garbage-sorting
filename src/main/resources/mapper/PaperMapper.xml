@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjz.code.mapper.PaperMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zjz.code.entity.po.Paper">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="total_score" property="totalScore" />
+        <result column="quantity" property="quantity" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+    </resultMap>
+    <update id="updateNumAndScore">
+        UPDATE t_paper SET total_score = total_score + #{score}, quantity= quantity + 1 WHERE id = #{id};
+    </update>
+    <update id="reduceNumAndScore">
+        UPDATE t_paper SET total_score = total_score - #{score}, quantity= quantity - #{num} WHERE id = #{id};
+    </update>
+
+    <select id="fuzzyQuery" resultType="com.zjz.code.entity.po.Paper">
+        select id, `name`, total_score, quantity, is_release, create_time, update_time from t_paper
+        <where>
+            <if test="paper.name != null and paper.name.trim() != &quot;&quot;">
+                `name` like concat('%',#{paper.name},'%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
+</mapper>

@@ -1,0 +1,60 @@
+server:
+  port: 8089
+#  ssl:
+#    #   证书位置
+#    key-store: classpath:5827039_www.annnnnnovice.top.pfx
+#    #   证书密码
+#    key-store-password: 4vUhS49w
+
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://39.108.126.83:3310/garbage_sorting?useUnicode=true&characterEncoding=utf-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  redis:
+    #    Redis数据库索引,默认是0
+    #    database: 0
+    #    Redis服务器地址
+    host: 39.108.126.83
+    #    Redis服务器连接端口
+    port: 6379
+    #    Redis服务器连接密码（默认为空）
+    jedis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 0
+    #    连接超时时间（毫秒）
+    timeout: 5000
+    jpa:
+      open-in-view: false
+
+
+#mybatis:
+#  mapper-locations: classpath:/mapper/*.xml
+#  configuration:
+#    map-underscore-to-camel-case: true
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+# /home/schoolfile/garbage-sorting/images/
+user.filepath: /home/download/
+user.virtualpath: /upload/
+user.ip: 39.108.126.83
+
+logging:
+  level:
+    root: warn
+    com.zjz.code.mapper: trace
+  pattern:
+    console: '%p%m%n'

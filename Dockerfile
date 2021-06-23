@@ -1,0 +1,11 @@
+FROM java:8
+
+COPY *.jar /app.jar
+
+CMD ["--server.port=8089"]
+
+CMD ["--user.ip=39.108.126.83"]
+
+EXPOSE 8089
+
+ENTRYPOINT ["java","-jar","/app.jar"]

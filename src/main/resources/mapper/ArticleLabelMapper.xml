@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjz.code.mapper.ArticleLabelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zjz.code.entity.po.ArticleLabel">
+        <id column="id" property="id" />
+        <result column="article_id" property="articleId" />
+        <result column="topic_id" property="labelId" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+    </resultMap>
+    <select id="selectByPage" resultType="java.lang.String">
+        select article_id from t_article_label where label_id = #{id} order by update_time desc limit #{begin},#{pageSize}
+    </select>
+
+</mapper>

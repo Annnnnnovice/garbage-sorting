@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Author zjz
  * @Date 2021/1/18 16:28
  */
+
 @Configuration
 public class CustomWebConfiguration implements WebMvcConfigurer {
 

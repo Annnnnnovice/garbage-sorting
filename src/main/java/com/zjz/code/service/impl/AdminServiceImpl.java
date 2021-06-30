@@ -63,7 +63,7 @@ public class AdminServiceImpl implements AdminService {
     public Result saveArticle(ArticleSaveDTO articleSaveDTO, HttpServletRequest httpServletRequest) {
         Type type = typeMapper.selectOne(new QueryWrapper<>(new Type(articleSaveDTO.getType()), "id"));
         if (type == null) {
-            return new Result().result500("插入失败", "/admin/article/save");
+            throw new RuntimeException("类型不存在");
         }
         Article copy = BeanUtil.copy(articleSaveDTO, Article.class);
         String token = httpServletRequest.getHeader("token");
@@ -74,25 +74,26 @@ public class AdminServiceImpl implements AdminService {
         copy.setTypeId(type.getId());
         int insert = articleMapper.insert(copy);
         if (insert != 1) {
-            return new Result().result500("插入失败", "/admin/article/save");
+            throw new RuntimeException("文章插入失败");
         }
-
-        String[] arr = articleSaveDTO.getLabel();
-        for (int i = 0; i < arr.length; i++) {
-            Label label = labelMapper.selectOne(new QueryWrapper<>(new Label(arr[i]), "id"));
-            if (label == null) {
-                return new Result().result500("插入失败", "/admin/article/save");
+        if (articleSaveDTO.getLabel() != null) {
+            String[] arr = articleSaveDTO.getLabel().split(",");
+            for (int i = 0; i < arr.length; i++) {
+                Label label = labelMapper.selectOne(new QueryWrapper<>(new Label(arr[i]), "id"));
+                if (label == null) {
+                    throw new RuntimeException("专题不存在");
+                }
+                arr[i] = label.getId();
             }
-            arr[i] = label.getId();
-        }
-        for (String s : arr) {
-            int insert1 = articleLabelMapper.insert(new ArticleLabel(UUID.randomUUID().toString(), uuid, s));
-            if (insert1 == 0) {
-                return new Result().result500("插入失败", "/admin/article/save");
-            }
-            int update = labelMapper.updateNum(s);
-            if (update == 0) {
-                return new Result().result500("插入失败", "/admin/article/save");
+            for (String s : arr) {
+                int insert1 = articleLabelMapper.insert(new ArticleLabel(UUID.randomUUID().toString(), uuid, s));
+                if (insert1 == 0) {
+                    throw new RuntimeException("文章专题插入失败");
+                }
+                int update = labelMapper.updateNum(s);
+                if (update == 0) {
+                    throw new RuntimeException("专题拥有文章数量更新失败");
+                }
             }
         }
         return new Result().result200("插入成功", "/admin/article/save");
@@ -135,7 +136,7 @@ public class AdminServiceImpl implements AdminService {
             return new Result().result500("修改失败", "/admin/article/update");
         }
         // 获得专题的id
-        String[] arr = articleUpdateDTO.getLabel();
+        String[] arr = articleUpdateDTO.getLabel().split(",");
         for (int i = 0; i < arr.length; i++) {
             Label label = labelMapper.selectOne(new QueryWrapper<>(new Label(arr[i]), "id"));
             if (label == null) {

@@ -3,8 +3,6 @@ package com.zjz.code.entity.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Arrays;
-
 /**
  * @author zjz
  * @description 文章修改的数据传输类
@@ -13,7 +11,7 @@ import java.util.Arrays;
 @ApiModel("文章修改的数据传输类")
 public class ArticleUpdateDTO {
 
-    @ApiModelProperty(value = "主键(UUID)", example = "99b50a93-a89e-4c45-8a3e-37e04bb8d704")
+    @ApiModelProperty(value = "主键(UUID)", example = "d7fc8045-475e-4b1b-afc7-c2ac5e5f954d")
     private String id;
 
     @ApiModelProperty(value = "标题", example = "前端页面都不写")
@@ -25,8 +23,8 @@ public class ArticleUpdateDTO {
     @ApiModelProperty(value = "类型名称", example = "垃圾分类知识")
     private String type;
 
-    @ApiModelProperty(value = "专题", example = "[\"生活垃圾\", \"浙江\"]")
-    private String[] label;
+    @ApiModelProperty(value = "专题", example = "生活垃圾,浙江")
+    private String label;
 
     @ApiModelProperty(value = "内容", example = "该死的前端不知道写页面")
     private String content;
@@ -66,11 +64,11 @@ public class ArticleUpdateDTO {
         this.type = type;
     }
 
-    public String[] getLabel() {
+    public String getLabel() {
         return label;
     }
 
-    public void setLabel(String[] label) {
+    public void setLabel(String label) {
         this.label = label;
     }
 
@@ -89,7 +87,7 @@ public class ArticleUpdateDTO {
             ", title='" + title + '\'' +
             ", url='" + url + '\'' +
             ", type='" + type + '\'' +
-            ", label=" + Arrays.toString(label) +
+            ", label='" + label + '\'' +
             ", content='" + content + '\'' +
             '}';
     }

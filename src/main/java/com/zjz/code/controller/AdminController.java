@@ -69,7 +69,7 @@ public class AdminController {
 
     @ApiOperation(value = "上传图片")
     @PostMapping("/upload")
-    public Result upload(@RequestPart("MultipartFile") MultipartFile multipartFile) {
+    public Result upload(@RequestPart("file") MultipartFile multipartFile) {
         // 生成一个随机的名称，避免文件名重复
         UUID uuid = UUID.randomUUID();
         // 获取原文件名称
@@ -140,7 +140,12 @@ public class AdminController {
     @ApiOperation("增加文章")
     @PostMapping("/article/save")
     public Result saveArticle(@RequestBody ArticleSaveDTO articleSaveDTO, HttpServletRequest httpServletRequest) {
-        return adminService.saveArticle(articleSaveDTO, httpServletRequest);
+        try {
+            return adminService.saveArticle(articleSaveDTO, httpServletRequest);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new Result().result500("插入失败", "/admin/article/save");
+        }
     }
 
     @ApiResponses({

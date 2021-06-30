@@ -22,8 +22,8 @@ public class ArticleSaveDTO {
     @ApiModelProperty(value = "类型名称", example = "垃圾分类知识")
     private String type;
 
-    @ApiModelProperty(value = "专题", example = "[\"生活垃圾\", \"浙江\"]")
-    private String[] label;
+    @ApiModelProperty(value = "专题", example = "生活垃圾,浙江")
+    private String label;
 
     @ApiModelProperty(value = "内容", example = "该死的前端不知道写页面")
     private String content;
@@ -52,11 +52,11 @@ public class ArticleSaveDTO {
         this.type = type;
     }
 
-    public String[] getLabel() {
+    public String getLabel() {
         return label;
     }
 
-    public void setLabel(String[] label) {
+    public void setLabel(String label) {
         this.label = label;
     }
 
@@ -74,7 +74,7 @@ public class ArticleSaveDTO {
             "title='" + title + '\'' +
             ", url='" + url + '\'' +
             ", type='" + type + '\'' +
-            ", label=" + Arrays.toString(label) +
+            ", label=" + label +
             ", content='" + content + '\'' +
             '}';
     }

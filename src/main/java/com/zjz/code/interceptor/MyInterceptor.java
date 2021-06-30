@@ -1,6 +1,7 @@
 package com.zjz.code.interceptor;
 
 import com.zjz.code.utils.RedisUtil;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +25,11 @@ public class MyInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if("OPTIONS".equals(request.getMethod().toUpperCase())) {
+            return true;
+        }
         Boolean token = RedisUtil.verifyToken(request.getHeader("token"));
+        System.out.println("token:" + request.getHeader("token"));
         if (token != null && token) {
             return true;
         }
